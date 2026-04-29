@@ -49,16 +49,17 @@
       repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.04) 40px);
     pointer-events: none;
   }
-  .trophy-icon { font-size: 52px; display: block; margin-bottom: 12px; animation: floatY 3s ease-in-out infinite; }
-  @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .trophy-icon { display: none; }
+  @keyframes floatY {}
 
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(42px, 8vw, 88px);
+    font-size: clamp(22px, 4.5vw, 48px);
     letter-spacing: 4px;
-    line-height: 0.95;
+    line-height: 1;
     color: var(--gold-light);
-    text-shadow: 0 0 40px rgba(201,168,76,0.4);
+    white-space: nowrap;
+    text-shadow: none;
   }
   .hero h1 span { color: var(--white); }
   .hero-sub {
@@ -248,7 +249,7 @@
 <!-- HERO -->
 <div class="hero">
   <span class="trophy-icon">🏆</span>
-  <h1>FIFA WORLD CUP<br><span>2026™</span></h1>
+  <h1>FIFA WORLD CUP <span>2026™</span></h1>
   <p class="hero-sub">USA · Canada · Mexico &nbsp;|&nbsp; June 11 – July 19, 2026</p>
   <div class="hero-pills">
     <span class="pill">48 Teams</span>
