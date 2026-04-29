@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA World Cup 2026 – Full Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --red: #C0392B;
+    --blue-dark: #0A1628;
+    --blue-mid: #0D2040;
+    --blue-card: #112240;
+    --blue-accent: #1A3A5C;
+    --green: #27AE60;
+    --white: #F5F5F5;
+    --grey: #8899AA;
+    --border: rgba(201,168,76,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--blue-dark);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px 50px;
+    background: linear-gradient(180deg, #05111F 0%, var(--blue-dark) 100%);
+    border-bottom: 2px solid var(--gold);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.04) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.04) 40px);
+    pointer-events: none;
+  }
+  .trophy-icon { font-size: 52px; display: block; margin-bottom: 12px; animation: floatY 3s ease-in-out infinite; }
+  @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 8vw, 88px);
+    letter-spacing: 4px;
+    line-height: 0.95;
+    color: var(--gold-light);
+    text-shadow: 0 0 40px rgba(201,168,76,0.4);
+  }
+  .hero h1 span { color: var(--white); }
+  .hero-sub {
+    font-size: clamp(13px, 2vw, 16px);
+    color: var(--grey);
+    margin-top: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .hero-pills {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    margin-top: 28px;
+  }
+  .pill {
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 6px 18px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+
+  /* ── NAV TABS ── */
+  .stage-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,22,40,0.97);
+    border-bottom: 1px solid var(--border);
+    display: flex; overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 16px;
+    gap: 0;
+  }
+  .stage-nav::-webkit-scrollbar { display: none; }
+  .stage-btn {
+    flex-shrink: 0;
+    padding: 14px 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: var(--grey);
+    border: none; background: transparent; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .stage-btn:hover { color: var(--gold-light); }
+  .stage-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── MAIN WRAP ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 40px 16px 80px; }
+
+  /* ── STAGE SECTIONS ── */
+  .stage-section { display: none; animation: fadeUp .35s ease; }
+  .stage-section.visible { display: block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  .stage-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .stage-desc { color: var(--grey); font-size: 13px; margin-bottom: 32px; letter-spacing: 1px; }
+
+  /* ── GROUP BLOCKS ── */
+  .group-block { margin-bottom: 36px; }
+  .group-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── DAY HEADER ── */
+  .day-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--white);
+    margin: 28px 0 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .day-header::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* ── MATCH CARD ── */
+  .matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+  .match-card {
+    background: var(--blue-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    position: relative; overflow: hidden;
+  }
+  .match-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--gold);
+    border-radius: 3px 0 0 3px;
+    opacity: 0; transition: opacity .2s;
+  }
+  .match-card:hover { transform: translateY(-2px); border-color: var(--gold); box-shadow: 0 6px 24px rgba(201,168,76,0.12); }
+  .match-card:hover::before { opacity: 1; }
+
+  .match-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .match-group-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px; letter-spacing: 2px;
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .match-num { font-size: 11px; color: var(--grey); letter-spacing: 1px; }
+
+  .match-teams {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .team { text-align: center; flex: 1; }
+  .team-flag { font-size: 28px; display: block; margin-bottom: 4px; }
+  .team-name { font-weight: 600; font-size: 13px; letter-spacing: 0.5px; line-height: 1.2; }
+  .vs-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; color: var(--gold);
+    padding: 0 10px; flex-shrink: 0;
+  }
+
+  .match-info { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .info-chip {
+    font-size: 11px; color: var(--grey);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; padding: 2px 8px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .info-chip.time { color: var(--gold-light); background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.2); }
+
+  /* TBD / knockout cards */
+  .match-card.knockout .match-teams { opacity: 0.75; }
+  .tbd { font-style: italic; color: var(--grey); font-size: 12px; }
+
+  /* ── LEGEND ── */
+  .legend {
+    background: var(--blue-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  }
+  .legend-title { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--gold); margin-right:8px; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--grey); }
+
+  /* ── FOOTER ── */
+  .footer { text-align:center; padding:40px 20px; color:var(--grey); font-size:12px; letter-spacing:1px; border-top:1px solid var(--border); margin-top:60px; }
+  .footer a { color:var(--gold); text-decoration:none; }
+
+  /* ── IST note ── */
+  .ist-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background: rgba(39,174,96,0.12); border:1px solid rgba(39,174,96,0.3);
+    border-radius:6px; padding:4px 12px; font-size:11px; color:#6ED99A;
+    letter-spacing:1.5px; text-transform:uppercase; margin-bottom:24px;
+  }
+
+  @media(max-width:500px){
+    .matches-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="trophy-icon">🏆</span>
+  <h1>FIFA WORLD CUP<br><span>2026™</span></h1>
+  <p class="hero-sub">USA · Canada · Mexico &nbsp;|&nbsp; June 11 – July 19, 2026</p>
+  <div class="hero-pills">
+    <span class="pill">48 Teams</span>
+    <span class="pill">104 Matches</span>
+    <span class="pill">16 Venues</span>
+    <span class="pill">3 Countries</span>
+    <span class="pill">All times in IST</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="stage-nav" id="stageNav">
+  <button class="stage-btn active" onclick="showStage('group')">Group Stage</button>
+  <button class="stage-btn" onclick="showStage('r32')">Round of 32</button>
+  <button class="stage-btn" onclick="showStage('r16')">Round of 16</button>
+  <button class="stage-btn" onclick="showStage('qf')">Quarterfinals</button>
+  <button class="stage-btn" onclick="showStage('sf')">Semifinals</button>
+  <button class="stage-btn" onclick="showStage('final')">Final</button>
+</nav>
+
+<div class="main">
+
+<!-- IST note -->
+<div class="ist-badge">🇮🇳 All kick-off times shown in India Standard Time (IST = ET + 9h 30m)</div>
+
+<!-- ═══════════════════════════════════════
+     GROUP STAGE
+═══════════════════════════════════════ -->
+<section class="stage-section visible" id="group">
+  <div class="stage-title">Group Stage</div>
+  <p class="stage-desc">June 11 – June 27, 2026 &nbsp;·&nbsp; 48 Teams in 12 Groups (A–L) &nbsp;·&nbsp; Top 2 + 8 best 3rd-place advance</p>
+
+  <!-- Groups info -->
+  <div class="legend">
+    <span class="legend-title">Groups</span>
+    <span class="legend-item">🇲🇽🇨🇿🇿🇦🇰🇷 A</span>
+    <span class="legend-item">🇨🇦🇨🇭🇧🇦🇶🇦 B</span>
+    <span class="legend-item">🇧🇷🇲🇦🏴󠁧󠁢󠁳󠁣󠁴󠁿🇭🇹 C</span>
+    <span class="legend-item">🇺🇸🇦🇺🇵🇾🇹🇷 D</span>
+    <span class="legend-item">🇩🇪🇪🇨🇨🇮🇨🇼 E</span>
+    <span class="legend-item">🇳🇱🇯🇵🇸🇪🇹🇳 F</span>
+    <span class="legend-item">🇧🇪🇮🇷🇪🇬🇳🇿 G</span>
+    <span class="legend-item">🇪🇸🇺🇾🇸🇦🇨🇻 H</span>
+    <span class="legend-item">🇫🇷🇳🇴🇸🇳🇮🇶 I</span>
+    <span class="legend-item">🇦🇷🇦🇹🇩🇿🇯🇴 J</span>
+    <span class="legend-item">🇵🇹🇨🇴🇺🇿🇨🇩 K</span>
+    <span class="legend-item">🇬🇧🇭🇷🇬🇭🇵🇦 L</span>
+  </div>
+
+  <!-- JUN 11 -->
+  <div class="day-header">Thursday, June 11</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group A · Opening Match</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇲🇽</span><span class="team-name">Mexico</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇿🇦</span><span class="team-name">South Africa</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 12)</span>
+        <span class="info-chip">🏟 Estadio Azteca, Mexico City</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group A</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇰🇷</span><span class="team-name">South Korea</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇿</span><span class="team-name">Czechia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 12)</span>
+        <span class="info-chip">🏟 Estadio Akron, Zapopan</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 12 -->
+  <div class="day-header">Friday, June 12</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group B</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇦</span><span class="team-name">Canada</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇧🇦</span><span class="team-name">Bosnia & Herz.</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 13)</span>
+        <span class="info-chip">🏟 BMO Field, Toronto</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group D</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇺🇸</span><span class="team-name">USA</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇵🇾</span><span class="team-name">Paraguay</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 13)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 13 -->
+  <div class="day-header">Saturday, June 13</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group B</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇶🇦</span><span class="team-name">Qatar</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇭</span><span class="team-name">Switzerland</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 14)</span>
+        <span class="info-chip">🏟 Levi's Stadium, Santa Clara</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group C</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇧🇷</span><span class="team-name">Brazil</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇲🇦</span><span class="team-name">Morocco</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 14)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group C</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇭🇹</span><span class="team-name">Haiti</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="team-name">Scotland</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 14)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 14 -->
+  <div class="day-header">Sunday, June 14</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group D</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇦🇺</span><span class="team-name">Australia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇹🇷</span><span class="team-name">Türkiye</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 AM IST</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group E</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇩🇪</span><span class="team-name">Germany</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇼</span><span class="team-name">Curaçao</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group F</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇳🇱</span><span class="team-name">Netherlands</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇯🇵</span><span class="team-name">Japan</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jun 15)</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group E</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇮</span><span class="team-name">Ivory Coast</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇪🇨</span><span class="team-name">Ecuador</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 4:30 AM IST (Jun 15)</span>
+        <span class="info-chip">🏟 Lincoln Financial Field, Philadelphia</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group F</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇸🇪</span><span class="team-name">Sweden</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇹🇳</span><span class="team-name">Tunisia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 15)</span>
+        <span class="info-chip">🏟 Estadio BBVA, Monterrey</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 15 -->
+  <div class="day-header">Monday, June 15</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group H</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇪🇸</span><span class="team-name">Spain</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇻</span><span class="team-name">Cape Verde</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 PM IST</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group G</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇧🇪</span><span class="team-name">Belgium</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇪🇬</span><span class="team-name">Egypt</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 16)</span>
+        <span class="info-chip">🏟 Lumen Field, Seattle</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group H</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇸🇦</span><span class="team-name">Saudi Arabia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇺🇾</span><span class="team-name">Uruguay</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 16)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group G</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇮🇷</span><span class="team-name">Iran</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇳🇿</span><span class="team-name">New Zealand</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 16)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 16 -->
+  <div class="day-header">Tuesday, June 16</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group I</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇫🇷</span><span class="team-name">France</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇸🇳</span><span class="team-name">Senegal</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 17)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group I</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇮🇶</span><span class="team-name">Iraq</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇳🇴</span><span class="team-name">Norway</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 17)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group J</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇦🇷</span><span class="team-name">Argentina</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇩🇿</span><span class="team-name">Algeria</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 17)</span>
+        <span class="info-chip">🏟 Arrowhead Stadium, Kansas City</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 17 -->
+  <div class="day-header">Wednesday, June 17</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group J</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇦🇹</span><span class="team-name">Austria</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇯🇴</span><span class="team-name">Jordan</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 AM IST</span>
+        <span class="info-chip">🏟 Levi's Stadium, Santa Clara</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group K</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇵🇹</span><span class="team-name">Portugal</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇩</span><span class="team-name">DR Congo</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group L</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="team-name">England</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇭🇷</span><span class="team-name">Croatia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jun 18)</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group L</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇬🇭</span><span class="team-name">Ghana</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇵🇦</span><span class="team-name">Panama</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 4:30 AM IST (Jun 18)</span>
+        <span class="info-chip">🏟 BMO Field, Toronto</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group K</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇺🇿</span><span class="team-name">Uzbekistan</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇴</span><span class="team-name">Colombia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 18)</span>
+        <span class="info-chip">🏟 Estadio Azteca, Mexico City</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 18 -->
+  <div class="day-header">Thursday, June 18</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group A</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇿</span><span class="team-name">Czechia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇿🇦</span><span class="team-name">South Africa</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 PM IST</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group B</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇭</span><span class="team-name">Switzerland</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇧🇦</span><span class="team-name">Bosnia & Herz.</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 19)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group B</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇦</span><span class="team-name">Canada</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇶🇦</span><span class="team-name">Qatar</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 19)</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group A</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇲🇽</span><span class="team-name">Mexico</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇰🇷</span><span class="team-name">South Korea</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 19)</span>
+        <span class="info-chip">🏟 Estadio Akron, Zapopan</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 19 -->
+  <div class="day-header">Friday, June 19</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group D</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇺🇸</span><span class="team-name">USA</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇦🇺</span><span class="team-name">Australia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 20)</span>
+        <span class="info-chip">🏟 Lumen Field, Seattle</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group C</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="team-name">Scotland</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇲🇦</span><span class="team-name">Morocco</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 20)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group C</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇧🇷</span><span class="team-name">Brazil</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇭🇹</span><span class="team-name">Haiti</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:00 AM IST (Jun 20)</span>
+        <span class="info-chip">🏟 Lincoln Financial Field, Philadelphia</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group D</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇹🇷</span><span class="team-name">Türkiye</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇵🇾</span><span class="team-name">Paraguay</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 8:30 AM IST (Jun 20)</span>
+        <span class="info-chip">🏟 Levi's Stadium, Santa Clara</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 20 -->
+  <div class="day-header">Saturday, June 20</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group F</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇳🇱</span><span class="team-name">Netherlands</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇸🇪</span><span class="team-name">Sweden</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group E</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇩🇪</span><span class="team-name">Germany</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇮</span><span class="team-name">Ivory Coast</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jun 21)</span>
+        <span class="info-chip">🏟 BMO Field, Toronto</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group E</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇪🇨</span><span class="team-name">Ecuador</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇼</span><span class="team-name">Curaçao</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jun 21)</span>
+        <span class="info-chip">🏟 Arrowhead Stadium, Kansas City</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 21 -->
+  <div class="day-header">Sunday, June 21</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group F · 1000th WC Match</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇹🇳</span><span class="team-name">Tunisia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇯🇵</span><span class="team-name">Japan</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 AM IST</span>
+        <span class="info-chip">🏟 Estadio BBVA, Monterrey</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group H</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇪🇸</span><span class="team-name">Spain</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇸🇦</span><span class="team-name">Saudi Arabia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 PM IST</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group G</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇧🇪</span><span class="team-name">Belgium</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇮🇷</span><span class="team-name">Iran</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 22)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group H</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇺🇾</span><span class="team-name">Uruguay</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇻</span><span class="team-name">Cape Verde</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 22)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group G</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇳🇿</span><span class="team-name">New Zealand</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇪🇬</span><span class="team-name">Egypt</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 22)</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 22 -->
+  <div class="day-header">Monday, June 22</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group J</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇦🇷</span><span class="team-name">Argentina</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇦🇹</span><span class="team-name">Austria</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group I</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇫🇷</span><span class="team-name">France</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇮🇶</span><span class="team-name">Iraq</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jun 23)</span>
+        <span class="info-chip">🏟 Lincoln Financial Field, Philadelphia</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group I</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇳🇴</span><span class="team-name">Norway</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇸🇳</span><span class="team-name">Senegal</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jun 23)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group J</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇯🇴</span><span class="team-name">Jordan</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇩🇿</span><span class="team-name">Algeria</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 8:30 AM IST (Jun 23)</span>
+        <span class="info-chip">🏟 Levi's Stadium, Santa Clara</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 23 -->
+  <div class="day-header">Tuesday, June 23</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group K</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇵🇹</span><span class="team-name">Portugal</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇺🇿</span><span class="team-name">Uzbekistan</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group L</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="team-name">England</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇬🇭</span><span class="team-name">Ghana</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jun 24)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group L</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇵🇦</span><span class="team-name">Panama</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇭🇷</span><span class="team-name">Croatia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 4:30 AM IST (Jun 24)</span>
+        <span class="info-chip">🏟 BMO Field, Toronto</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group K</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇴</span><span class="team-name">Colombia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇩</span><span class="team-name">DR Congo</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 24)</span>
+        <span class="info-chip">🏟 Estadio Akron, Zapopan</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 24 - Final Matchday Groups A, B, C -->
+  <div class="day-header">Wednesday, June 24 · Final Matchday: Groups A, B, C</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group B · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇭</span><span class="team-name">Switzerland</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇦</span><span class="team-name">Canada</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 25)</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group B · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇧🇦</span><span class="team-name">Bosnia & Herz.</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇶🇦</span><span class="team-name">Qatar</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 25)</span>
+        <span class="info-chip">🏟 Lumen Field, Seattle</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group C · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="team-name">Scotland</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇧🇷</span><span class="team-name">Brazil</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 25)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group C · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇲🇦</span><span class="team-name">Morocco</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇭🇹</span><span class="team-name">Haiti</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jun 25)</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group A · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇿</span><span class="team-name">Czechia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇲🇽</span><span class="team-name">Mexico</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 25)</span>
+        <span class="info-chip">🏟 Estadio Azteca, Mexico City</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group A · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇿🇦</span><span class="team-name">South Africa</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇰🇷</span><span class="team-name">South Korea</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 25)</span>
+        <span class="info-chip">🏟 Estadio BBVA, Monterrey</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 25 - Final Matchday D, E, F -->
+  <div class="day-header">Thursday, June 25 · Final Matchday: Groups D, E, F</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group E · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇼</span><span class="team-name">Curaçao</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇨🇮</span><span class="team-name">Ivory Coast</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jun 26)</span>
+        <span class="info-chip">🏟 Lincoln Financial Field, Philadelphia</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group E · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇪🇨</span><span class="team-name">Ecuador</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇩🇪</span><span class="team-name">Germany</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jun 26)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group F · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇯🇵</span><span class="team-name">Japan</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇸🇪</span><span class="team-name">Sweden</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 4:30 AM IST (Jun 26)</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group F · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇹🇳</span><span class="team-name">Tunisia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇳🇱</span><span class="team-name">Netherlands</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 4:30 AM IST (Jun 26)</span>
+        <span class="info-chip">🏟 Arrowhead Stadium, Kansas City</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group D · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇹🇷</span><span class="team-name">Türkiye</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇺🇸</span><span class="team-name">USA</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 26)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group D · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇵🇾</span><span class="team-name">Paraguay</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇦🇺</span><span class="team-name">Australia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 26)</span>
+        <span class="info-chip">🏟 Levi's Stadium, Santa Clara</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 26 - Final Matchday G, H, I -->
+  <div class="day-header">Friday, June 26 · Final Matchday: Groups G, H, I</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group I · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇳🇴</span><span class="team-name">Norway</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇫🇷</span><span class="team-name">France</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 27)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group I · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇸🇳</span><span class="team-name">Senegal</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇮🇶</span><span class="team-name">Iraq</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 27)</span>
+        <span class="info-chip">🏟 BMO Field, Toronto</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group H · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇻</span><span class="team-name">Cape Verde</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇸🇦</span><span class="team-name">Saudi Arabia</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jun 27)</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group H · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇺🇾</span><span class="team-name">Uruguay</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇪🇸</span><span class="team-name">Spain</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jun 27)</span>
+        <span class="info-chip">🏟 Estadio Akron, Zapopan</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group G · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇪🇬</span><span class="team-name">Egypt</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇮🇷</span><span class="team-name">Iran</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 8:30 AM IST (Jun 27)</span>
+        <span class="info-chip">🏟 Lumen Field, Seattle</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group G · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇳🇿</span><span class="team-name">New Zealand</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇧🇪</span><span class="team-name">Belgium</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 8:30 AM IST (Jun 27)</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUN 27 - Final Matchday J, K, L -->
+  <div class="day-header">Saturday, June 27 · Final Matchday: Groups J, K, L</div>
+  <div class="matches-grid">
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group L · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇵🇦</span><span class="team-name">Panama</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="team-name">England</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jun 28)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group L · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇭🇷</span><span class="team-name">Croatia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇬🇭</span><span class="team-name">Ghana</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jun 28)</span>
+        <span class="info-chip">🏟 Lincoln Financial Field, Philadelphia</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group K · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇴</span><span class="team-name">Colombia</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇵🇹</span><span class="team-name">Portugal</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:00 AM IST (Jun 28)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group K · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇨🇩</span><span class="team-name">DR Congo</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇺🇿</span><span class="team-name">Uzbekistan</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:00 AM IST (Jun 28)</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group J · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇩🇿</span><span class="team-name">Algeria</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇦🇹</span><span class="team-name">Austria</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 28)</span>
+        <span class="info-chip">🏟 Arrowhead Stadium, Kansas City</span>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-meta"><span class="match-group-tag">Group J · Simultaneous</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🇯🇴</span><span class="team-name">Jordan</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🇦🇷</span><span class="team-name">Argentina</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:30 AM IST (Jun 28)</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     ROUND OF 32
+═══════════════════════════════════════ -->
+<section class="stage-section" id="r32">
+  <div class="stage-title">Round of 32</div>
+  <p class="stage-desc">June 28 – July 3, 2026 &nbsp;·&nbsp; First-ever knockout round at a World Cup &nbsp;·&nbsp; Win or go home</p>
+
+  <div class="matches-grid">
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 73 · Sun Jun 28</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group A</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group B</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jun 29)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 76 · Mon Jun 29</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group C</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group F</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 74 · Mon Jun 29</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group E</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (A/B/C/D/F)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:00 AM IST (Jun 30)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 75 · Mon Jun 29</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group F</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group C</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jun 30)</span>
+        <span class="info-chip">🏟 Estadio BBVA, Monterrey</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 78 · Tue Jun 30</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group E</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group I</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 77 · Tue Jun 30</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group I</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (C/D/F/G/H)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jul 1)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 79 · Tue Jun 30</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group A</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (C/E/F/H/I)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jul 1)</span>
+        <span class="info-chip">🏟 Estadio Azteca, Mexico City</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 80 · Wed Jul 1</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group L</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (E/H/I/J/K)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 PM IST</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 82 · Wed Jul 1</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group G</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (A/E/H/I/J)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jul 2)</span>
+        <span class="info-chip">🏟 Lumen Field, Seattle</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 81 · Wed Jul 1</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group D</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (B/E/F/I/J)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jul 2)</span>
+        <span class="info-chip">🏟 Levi's Stadium, Santa Clara</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 84 · Thu Jul 2</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group H</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group J</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jul 3)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 83 · Thu Jul 2</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group K</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group L</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 4:30 AM IST (Jul 3)</span>
+        <span class="info-chip">🏟 BMO Field, Toronto</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 85 · Thu Jul 2</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group B</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (E/F/G/I/J)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 8:30 AM IST (Jul 3)</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 88 · Fri Jul 3</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group D</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group G</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 11:30 PM IST</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 86 · Fri Jul 3</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group J</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥈</span><span class="team-name tbd">Runner-up Group H</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 3:30 AM IST (Jul 4)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 87 · Fri Jul 3</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥇</span><span class="team-name tbd">Winner Group K</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">3️⃣</span><span class="team-name tbd">Best 3rd (D/E/I/J/L)</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 7:00 AM IST (Jul 4)</span>
+        <span class="info-chip">🏟 Arrowhead Stadium, Kansas City</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     ROUND OF 16
+═══════════════════════════════════════ -->
+<section class="stage-section" id="r16">
+  <div class="stage-title">Round of 16</div>
+  <p class="stage-desc">July 4 – July 7, 2026 &nbsp;·&nbsp; 16 teams remain &nbsp;·&nbsp; Single elimination</p>
+  <div class="matches-grid">
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 90 · Sat Jul 4</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M73</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M75</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 10:30 PM IST</span>
+        <span class="info-chip">🏟 NRG Stadium, Houston</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 89 · Sat Jul 4</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M74</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M77</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jul 5)</span>
+        <span class="info-chip">🏟 Lincoln Financial, Philadelphia</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 91 · Sun Jul 5</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M76</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M78</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jul 6)</span>
+        <span class="info-chip">🏟 MetLife Stadium, New Jersey</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 92 · Sun Jul 5</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M79</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M80</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jul 6)</span>
+        <span class="info-chip">🏟 Estadio Azteca, Mexico City</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 93 · Mon Jul 6</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M83</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M84</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jul 7)</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 94 · Mon Jul 6</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M81</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M82</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 5:30 AM IST (Jul 7)</span>
+        <span class="info-chip">🏟 Lumen Field, Seattle</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 95 · Tue Jul 7</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M86</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M88</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 9:30 PM IST</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 96 · Tue Jul 7</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M85</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M87</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jul 8)</span>
+        <span class="info-chip">🏟 BC Place, Vancouver</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUARTERFINALS -->
+<section class="stage-section" id="qf">
+  <div class="stage-title">Quarterfinals</div>
+  <p class="stage-desc">July 9 – July 11, 2026 &nbsp;·&nbsp; 8 teams &nbsp;·&nbsp; 4 matches</p>
+  <div class="matches-grid">
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 97 · Thu Jul 9</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M89</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M90</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 1:30 AM IST (Jul 10)</span>
+        <span class="info-chip">🏟 Gillette Stadium, Foxborough</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 98 · Fri Jul 10</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M93</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M94</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jul 11)</span>
+        <span class="info-chip">🏟 SoFi Stadium, Inglewood</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 99 · Sat Jul 11</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M91</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M92</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jul 12)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 100 · Sat Jul 11</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M95</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M96</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 6:30 AM IST (Jul 12)</span>
+        <span class="info-chip">🏟 Arrowhead Stadium, Kansas City</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEMIFINALS -->
+<section class="stage-section" id="sf">
+  <div class="stage-title">Semifinals</div>
+  <p class="stage-desc">July 14 – July 15, 2026 &nbsp;·&nbsp; 4 teams &nbsp;·&nbsp; 2 matches</p>
+  <div class="matches-grid">
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 101 · Tue Jul 14</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M97</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M98</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jul 15)</span>
+        <span class="info-chip">🏟 AT&T Stadium, Arlington (Dallas)</span>
+      </div>
+    </div>
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 102 · Wed Jul 15</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-name tbd">Winner M99</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-name tbd">Winner M100</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 12:30 AM IST (Jul 16)</span>
+        <span class="info-chip">🏟 Mercedes-Benz Stadium, Atlanta</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="stage-section" id="final">
+  <div class="stage-title">The Final</div>
+  <p class="stage-desc">July 18–19, 2026 &nbsp;·&nbsp; MetLife Stadium, New York/New Jersey</p>
+
+  <!-- Third place -->
+  <div class="day-header">Third-Place Match · Saturday, July 18</div>
+  <div class="matches-grid">
+    <div class="match-card knockout">
+      <div class="match-meta"><span class="match-group-tag">Match 103 · Bronze</span></div>
+      <div class="match-teams">
+        <div class="team"><span class="team-flag">🥉</span><span class="team-name tbd">Loser M101</span></div>
+        <span class="vs-badge">VS</span>
+        <div class="team"><span class="team-flag">🥉</span><span class="team-name tbd">Loser M102</span></div>
+      </div>
+      <div class="match-info">
+        <span class="info-chip time">⏰ 2:30 AM IST (Jul 19)</span>
+        <span class="info-chip">🏟 Hard Rock Stadium, Miami Gardens</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORLD CUP FINAL -->
+  <div class="day-header" style="margin-top:36px;">🏆 World Cup Final · Sunday, July 19</div>
+  <div style="max-width:520px; margin:0 auto;">
+    <div class="match-card" style="border-color:var(--gold); background: linear-gradient(135deg, #0D2040 0%, #1A3A20 100%); padding: 28px;">
+      <div class="match-meta" style="justify-content:center; margin-bottom:16px;">
+        <span class="match-group-tag" style="font-size:14px; padding: 6px 20px; background:rgba(201,168,76,0.25);">⚽ Match 104 · THE FINAL</span>
+      </div>
+      <div class="match-teams" style="margin-bottom:16px;">
+        <div class="team"><span class="team-flag" style="font-size:42px;">🏆</span><span class="team-name tbd" style="font-size:16px;">Winner M101</span></div>
+        <span class="vs-badge" style="font-size:28px; color:var(--gold-light);">VS</span>
+        <div class="team"><span class="team-flag" style="font-size:42px;">🏆</span><span class="team-name tbd" style="font-size:16px;">Winner M102</span></div>
+      </div>
+      <div class="match-info" style="justify-content:center; gap:10px;">
+        <span class="info-chip time" style="font-size:14px; padding:6px 14px;">⏰ 12:30 AM IST — 20 July 2026</span>
+      </div>
+      <div class="match-info" style="justify-content:center; margin-top:8px;">
+        <span class="info-chip" style="font-size:13px;">🏟 MetLife Stadium, East Rutherford, New Jersey</span>
+      </div>
+      <div style="text-align:center; margin-top:16px; font-size:11px; color:var(--grey); letter-spacing:2px; text-transform:uppercase;">First-ever World Cup Final halftime show</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /main -->
+
+<footer class="footer">
+  <p>FIFA World Cup 2026™ &nbsp;·&nbsp; All times in <strong style="color:var(--gold)">IST (India Standard Time)</strong> = ET + 9h 30m</p>
+  <p style="margin-top:8px;">Data sourced from <a href="https://www.fifa.com" target="_blank">fifa.com</a> &amp; <a href="https://worldcupwiki.com" target="_blank">worldcupwiki.com</a></p>
+</footer>
+
+<script>
+  function showStage(id) {
+    document.querySelectorAll('.stage-section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('visible');
+    event.target.classList.add('active');
+    window.scrollTo({ top: document.querySelector('.stage-nav').offsetTop - 10, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
