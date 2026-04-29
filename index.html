@@ -242,6 +242,120 @@
   @media(max-width:500px){
     .matches-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── PLAYERS SECTION ── */
+  .players-intro {
+    text-align: center; margin-bottom: 40px;
+  }
+  .players-intro p { color: var(--grey); font-size: 14px; max-width: 600px; margin: 8px auto 0; }
+
+  .filter-bar {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    margin-bottom: 36px;
+  }
+  .filter-btn {
+    padding: 6px 16px; border-radius: 99px; border: 1px solid var(--border);
+    background: transparent; color: var(--grey); font-size: 12px; letter-spacing: 1px;
+    cursor: pointer; transition: all .2s; font-family: 'Barlow', sans-serif;
+    text-transform: uppercase;
+  }
+  .filter-btn:hover, .filter-btn.on { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 700; }
+
+  .players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  /* flip card */
+  .pcard-wrap { perspective: 900px; height: 340px; cursor: pointer; }
+  .pcard-wrap.hidden { display: none; }
+  .pcard-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+  }
+  .pcard-wrap.flipped .pcard-inner { transform: rotateY(180deg); }
+
+  .pcard-front, .pcard-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .pcard-front {
+    background: linear-gradient(160deg, var(--blue-card) 0%, #0A1F3A 100%);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 20px 16px 16px;
+  }
+  .pcard-back {
+    background: linear-gradient(160deg, #0A1F3A 0%, #112240 100%);
+    transform: rotateY(180deg);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 22px 20px;
+  }
+
+  /* avatar SVG area */
+  .avatar-wrap {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--gold);
+    margin-bottom: 14px;
+    flex-shrink: 0;
+    background: #0D2040;
+    position: relative;
+  }
+  .avatar-wrap svg { width: 100%; height: 100%; }
+
+  .pcard-country-flag { font-size: 22px; margin-bottom: 4px; }
+  .pcard-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; letter-spacing: 2px;
+    color: var(--gold-light); text-align: center; line-height: 1.1;
+  }
+  .pcard-role {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--grey); margin-top: 4px;
+  }
+  .pcard-country {
+    font-size: 12px; color: var(--grey); margin-top: 6px;
+  }
+  .pcard-hint {
+    font-size: 10px; color: rgba(201,168,76,0.5); margin-top: 10px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* back */
+  .pcard-back-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px;
+  }
+  .stat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+  }
+  .stat-label { color: var(--grey); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .stat-val { color: var(--white); font-weight: 600; }
+  .pcard-bio {
+    margin-top: 12px; font-size: 12px; color: var(--grey); line-height: 1.6;
+    font-style: italic;
+  }
+  .pcard-tag {
+    display: inline-block; margin-top: 10px;
+    background: rgba(201,168,76,0.15); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 8px; font-size: 11px; color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  @media(max-width:500px){
+    .players-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .pcard-wrap { height: 300px; }
+    .avatar-wrap { width: 100px; height: 100px; }
+    .pcard-name { font-size: 16px; }
+  }
 </style>
 </head>
 <body>
@@ -268,6 +382,7 @@
   <button class="stage-btn" onclick="showStage('qf')">Quarterfinals</button>
   <button class="stage-btn" onclick="showStage('sf')">Semifinals</button>
   <button class="stage-btn" onclick="showStage('final')">Final</button>
+  <button class="stage-btn" onclick="showStage('players')">⭐ Players</button>
 </nav>
 
 <div class="main">
@@ -1691,6 +1806,585 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════
+     PLAYERS TO WATCH
+═══════════════════════════════════════ -->
+<section class="stage-section" id="players">
+  <div class="players-intro">
+    <div class="stage-title">⭐ Players to Watch</div>
+    <p>The legends, the stars & the next generation — all competing at World Cup 2026. Tap a card to reveal stats.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn on" onclick="filterPlayers('all', this)">All</button>
+    <button class="filter-btn" onclick="filterPlayers('legend', this)">🐐 Legends</button>
+    <button class="filter-btn" onclick="filterPlayers('star', this)">⚡ Stars</button>
+    <button class="filter-btn" onclick="filterPlayers('young', this)">🌟 Next Gen</button>
+  </div>
+
+  <div class="players-grid" id="playersGrid">
+
+    <!-- ── MESSI ── -->
+    <div class="pcard-wrap" data-tier="legend" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <!-- BG gradient -->
+              <defs>
+                <radialGradient id="bg-m" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1A4A8A"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-m" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#F5C5A0"/><stop offset="100%" stop-color="#D4956A"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-m)"/>
+              <!-- jersey - light blue/white stripes Argentina -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#74ACDF"/>
+              <rect x="50" y="88" width="5" height="30" fill="white" opacity="0.6"/>
+              <rect x="61" y="88" width="5" height="30" fill="white" opacity="0.6"/>
+              <rect x="72" y="88" width="5" height="30" fill="white" opacity="0.6"/>
+              <!-- neck -->
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-m)"/>
+              <!-- head -->
+              <ellipse cx="65" cy="58" rx="22" ry="25" fill="url(#skin-m)"/>
+              <!-- dark brown hair -->
+              <ellipse cx="65" cy="38" rx="22" ry="14" fill="#3D1E0A"/>
+              <ellipse cx="65" cy="43" rx="22" ry="10" fill="#3D1E0A"/>
+              <ellipse cx="44" cy="52" rx="5" ry="12" fill="#3D1E0A"/>
+              <ellipse cx="86" cy="52" rx="5" ry="12" fill="#3D1E0A"/>
+              <!-- eyes -->
+              <ellipse cx="57" cy="57" rx="4" ry="4.5" fill="white"/>
+              <ellipse cx="73" cy="57" rx="4" ry="4.5" fill="white"/>
+              <circle cx="57" cy="57" r="2.5" fill="#3D1E0A"/>
+              <circle cx="73" cy="57" r="2.5" fill="#3D1E0A"/>
+              <circle cx="57.8" cy="56.2" r="1" fill="white"/>
+              <circle cx="73.8" cy="56.2" r="1" fill="white"/>
+              <!-- eyebrows -->
+              <path d="M52 51 Q57 48 62 51" stroke="#3D1E0A" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M68 51 Q73 48 78 51" stroke="#3D1E0A" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <!-- beard -->
+              <ellipse cx="65" cy="72" rx="14" ry="8" fill="#6B3A1F" opacity="0.5"/>
+              <!-- nose -->
+              <ellipse cx="65" cy="63" rx="3" ry="4" fill="#C4855A"/>
+              <!-- smile -->
+              <path d="M58 70 Q65 76 72 70" stroke="#A06040" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- number 10 on jersey -->
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">10</text>
+              <!-- gold star aura -->
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇦🇷</div>
+          <div class="pcard-name">Lionel Messi</div>
+          <div class="pcard-role">Forward · #10</div>
+          <div class="pcard-country">Argentina · Inter Miami</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">🐐 L. Messi</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">38</span></div>
+          <div class="stat-row"><span class="stat-label">WC Goals</span><span class="stat-val">13</span></div>
+          <div class="stat-row"><span class="stat-label">Ballon d'Or</span><span class="stat-val">8×</span></div>
+          <div class="stat-row"><span class="stat-label">WC Titles</span><span class="stat-val">1 (2022)</span></div>
+          <div class="stat-row"><span class="stat-label">Caps</span><span class="stat-val">180+</span></div>
+          <div class="pcard-bio">"His last World Cup. A living legend seeking back-to-back titles on US soil."</div>
+          <span class="pcard-tag">🐐 GOAT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RONALDO ── -->
+    <div class="pcard-wrap" data-tier="legend" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-r" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8B0000"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-r" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#E8B090"/><stop offset="100%" stop-color="#C4805A"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-r)"/>
+              <!-- jersey red Portugal -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#CC0000"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">7</text>
+              <!-- neck -->
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-r)"/>
+              <!-- head - more square jaw -->
+              <ellipse cx="65" cy="57" rx="23" ry="26" fill="url(#skin-r)"/>
+              <!-- hair black short -->
+              <ellipse cx="65" cy="36" rx="23" ry="13" fill="#1A1A1A"/>
+              <ellipse cx="65" cy="41" rx="23" ry="9" fill="#1A1A1A"/>
+              <ellipse cx="43" cy="50" rx="5" ry="11" fill="#1A1A1A"/>
+              <ellipse cx="87" cy="50" rx="5" ry="11" fill="#1A1A1A"/>
+              <!-- eyes -->
+              <ellipse cx="56" cy="56" rx="4.5" ry="4.5" fill="white"/>
+              <ellipse cx="74" cy="56" rx="4.5" ry="4.5" fill="white"/>
+              <circle cx="56" cy="57" r="2.8" fill="#1A0A00"/>
+              <circle cx="74" cy="57" r="2.8" fill="#1A0A00"/>
+              <circle cx="56.8" cy="56" r="1" fill="white"/>
+              <circle cx="74.8" cy="56" r="1" fill="white"/>
+              <!-- brows strong -->
+              <path d="M50 49 Q56 46 62 49" stroke="#1A1A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M68 49 Q74 46 80 49" stroke="#1A1A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <!-- strong jaw -->
+              <path d="M43 63 Q65 82 87 63" fill="#C4805A" opacity="0.3"/>
+              <!-- nose straight -->
+              <rect x="63" y="60" width="4" height="8" rx="2" fill="#B4704A"/>
+              <!-- confident smirk -->
+              <path d="M57 70 Q65 74 73 70" stroke="#904030" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- stubble -->
+              <ellipse cx="65" cy="72" rx="16" ry="7" fill="#444" opacity="0.25"/>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇵🇹</div>
+          <div class="pcard-name">Cristiano Ronaldo</div>
+          <div class="pcard-role">Forward · #7</div>
+          <div class="pcard-country">Portugal · Al-Nassr</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">💪 CR7</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">41</span></div>
+          <div class="stat-row"><span class="stat-label">Intl. Goals</span><span class="stat-val">130+</span></div>
+          <div class="stat-row"><span class="stat-label">Ballon d'Or</span><span class="stat-val">5×</span></div>
+          <div class="stat-row"><span class="stat-label">WC Apps</span><span class="stat-val">6th WC</span></div>
+          <div class="stat-row"><span class="stat-label">Euro Title</span><span class="stat-val">2016</span></div>
+          <div class="pcard-bio">"All-time international top scorer. Eyes a WC title before the curtain falls."</div>
+          <span class="pcard-tag">🔥 Record Breaker</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MBAPPE ── -->
+    <div class="pcard-wrap" data-tier="star" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-mb" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#002395"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-mb" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#8B5E3C"/><stop offset="100%" stop-color="#6B3E1C"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-mb)"/>
+              <!-- jersey France blue -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#002395"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">10</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-mb)"/>
+              <!-- head -->
+              <ellipse cx="65" cy="57" rx="22" ry="25" fill="url(#skin-mb)"/>
+              <!-- hair low fade dark -->
+              <ellipse cx="65" cy="37" rx="22" ry="12" fill="#1A0A00"/>
+              <ellipse cx="65" cy="41" rx="22" ry="8" fill="#1A0A00"/>
+              <ellipse cx="43" cy="50" rx="4" ry="10" fill="#1A0A00"/>
+              <ellipse cx="87" cy="50" rx="4" ry="10" fill="#1A0A00"/>
+              <!-- eyes -->
+              <ellipse cx="57" cy="56" rx="4" ry="4.2" fill="white"/>
+              <ellipse cx="73" cy="56" rx="4" ry="4.2" fill="white"/>
+              <circle cx="57" cy="56.5" r="2.5" fill="#1A0A00"/>
+              <circle cx="73" cy="56.5" r="2.5" fill="#1A0A00"/>
+              <circle cx="57.7" cy="55.7" r="0.9" fill="white"/>
+              <circle cx="73.7" cy="55.7" r="0.9" fill="white"/>
+              <path d="M52 50 Q57 47 62 50" stroke="#1A0A00" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M68 50 Q73 47 78 50" stroke="#1A0A00" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <!-- nose broad -->
+              <ellipse cx="65" cy="64" rx="4" ry="5" fill="#7A4E28"/>
+              <!-- smile big wide -->
+              <path d="M56 70 Q65 78 74 70" stroke="#7A4E28" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- ears -->
+              <ellipse cx="42" cy="58" rx="4" ry="6" fill="url(#skin-mb)"/>
+              <ellipse cx="88" cy="58" rx="4" ry="6" fill="url(#skin-mb)"/>
+              <!-- speed lines -->
+              <line x1="5" y1="50" x2="25" y2="50" stroke="#C9A84C" stroke-width="1.5" opacity="0.6"/>
+              <line x1="5" y1="60" x2="20" y2="60" stroke="#C9A84C" stroke-width="1" opacity="0.4"/>
+              <line x1="5" y1="70" x2="22" y2="70" stroke="#C9A84C" stroke-width="1.5" opacity="0.6"/>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇫🇷</div>
+          <div class="pcard-name">Kylian Mbappé</div>
+          <div class="pcard-role">Forward · #10</div>
+          <div class="pcard-country">France · Real Madrid</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">⚡ Mbappé</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">27</span></div>
+          <div class="stat-row"><span class="stat-label">WC Goals</span><span class="stat-val">12</span></div>
+          <div class="stat-row"><span class="stat-label">WC Title</span><span class="stat-val">2018</span></div>
+          <div class="stat-row"><span class="stat-label">Speed</span><span class="stat-val">36 km/h</span></div>
+          <div class="stat-row"><span class="stat-label">Club</span><span class="stat-val">Real Madrid</span></div>
+          <div class="pcard-bio">"Hat-trick in 2022 final. France's golden boy is the #1 favourite to win the Golden Boot."</div>
+          <span class="pcard-tag">⚡ Fastest in WC</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HAALAND ── -->
+    <div class="pcard-wrap" data-tier="star" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-h" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#EF2B2D"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-h" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#F8D5B5"/><stop offset="100%" stop-color="#E0A878"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-h)"/>
+              <!-- jersey Norway red -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#EF2B2D"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">9</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-h)"/>
+              <!-- big head - Haaland tall -->
+              <ellipse cx="65" cy="55" rx="24" ry="27" fill="url(#skin-h)"/>
+              <!-- blonde hair -->
+              <ellipse cx="65" cy="33" rx="24" ry="13" fill="#D4A843"/>
+              <ellipse cx="65" cy="38" rx="24" ry="9" fill="#D4A843"/>
+              <ellipse cx="41" cy="47" rx="5" ry="12" fill="#D4A843"/>
+              <ellipse cx="89" cy="47" rx="5" ry="12" fill="#D4A843"/>
+              <!-- eyes blue -->
+              <ellipse cx="56" cy="54" rx="4.5" ry="4.5" fill="white"/>
+              <ellipse cx="74" cy="54" rx="4.5" ry="4.5" fill="white"/>
+              <circle cx="56" cy="54.5" r="2.8" fill="#3A6EA8"/>
+              <circle cx="74" cy="54.5" r="2.8" fill="#3A6EA8"/>
+              <circle cx="56.8" cy="53.7" r="1" fill="white"/>
+              <circle cx="74.8" cy="53.7" r="1" fill="white"/>
+              <path d="M50 47 Q56 44 62 47" stroke="#B8882A" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M68 47 Q74 44 80 47" stroke="#B8882A" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <!-- strong jaw/chin -->
+              <path d="M44 65 Q65 84 86 65" fill="#E0A878" opacity="0.2"/>
+              <ellipse cx="65" cy="62" rx="3.5" ry="5" fill="#D4956A"/>
+              <path d="M57 70 Q65 76 73 70" stroke="#B07050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- muscle hint - determined look -->
+              <path d="M50 48 Q56 45 62 48" stroke="#B8882A" stroke-width="2.2" fill="none"/>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇳🇴</div>
+          <div class="pcard-name">Erling Haaland</div>
+          <div class="pcard-role">Striker · #9</div>
+          <div class="pcard-country">Norway · Man City</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">💣 Haaland</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">25</span></div>
+          <div class="stat-row"><span class="stat-label">Intl. Goals</span><span class="stat-val">55+</span></div>
+          <div class="stat-row"><span class="stat-label">1st WC</span><span class="stat-val">Debut 2026</span></div>
+          <div class="stat-row"><span class="stat-label">PL Goals</span><span class="stat-val">94 in 97</span></div>
+          <div class="stat-row"><span class="stat-label">Height</span><span class="stat-val">194 cm</span></div>
+          <div class="pcard-bio">"Norway's first WC since 1998. Haaland is a goal machine making his World Cup debut."</div>
+          <span class="pcard-tag">💣 Goal Machine</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VINICIUS JR ── -->
+    <div class="pcard-wrap" data-tier="star" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-v" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#009C3B"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-v" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#8B5E3C"/><stop offset="100%" stop-color="#5E3520"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-v)"/>
+              <!-- jersey Brazil yellow -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#009C3B"/>
+              <ellipse cx="65" cy="112" rx="30" ry="20" fill="#FFDF00"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="#009C3B" font-family="Arial">7</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-v)"/>
+              <ellipse cx="65" cy="57" rx="21" ry="24" fill="url(#skin-v)"/>
+              <!-- curly hair -->
+              <ellipse cx="65" cy="37" rx="21" ry="13" fill="#1A0A00"/>
+              <circle cx="52" cy="38" r="8" fill="#1A0A00"/>
+              <circle cx="65" cy="34" r="9" fill="#1A0A00"/>
+              <circle cx="78" cy="38" r="8" fill="#1A0A00"/>
+              <circle cx="44" cy="48" r="6" fill="#1A0A00"/>
+              <circle cx="86" cy="48" r="6" fill="#1A0A00"/>
+              <!-- eyes -->
+              <ellipse cx="57" cy="56" rx="4" ry="4" fill="white"/>
+              <ellipse cx="73" cy="56" rx="4" ry="4" fill="white"/>
+              <circle cx="57" cy="56.5" r="2.4" fill="#1A0A00"/>
+              <circle cx="73" cy="56.5" r="2.4" fill="#1A0A00"/>
+              <circle cx="57.7" cy="55.8" r="0.9" fill="white"/>
+              <circle cx="73.7" cy="55.8" r="0.9" fill="white"/>
+              <path d="M52 50 Q57 47 62 50" stroke="#1A0A00" stroke-width="2" fill="none"/>
+              <path d="M68 50 Q73 47 78 50" stroke="#1A0A00" stroke-width="2" fill="none"/>
+              <ellipse cx="65" cy="63" rx="3.5" ry="4.5" fill="#7A4020"/>
+              <!-- big smile dancing -->
+              <path d="M56 69 Q65 78 74 69" stroke="#7A4020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <ellipse cx="65" cy="72" rx="8" ry="5" fill="#C05040" opacity="0.3"/>
+              <!-- dance aura lines -->
+              <line x1="100" y1="30" x2="115" y2="20" stroke="#FFDF00" stroke-width="2" opacity="0.6"/>
+              <line x1="110" y1="45" x2="125" y2="40" stroke="#FFDF00" stroke-width="1.5" opacity="0.5"/>
+              <line x1="105" y1="60" x2="122" y2="58" stroke="#FFDF00" stroke-width="2" opacity="0.6"/>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#FFDF00" stroke-width="1.5" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇧🇷</div>
+          <div class="pcard-name">Vinicius Jr.</div>
+          <div class="pcard-role">Winger · #7</div>
+          <div class="pcard-country">Brazil · Real Madrid</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">🕺 Vini Jr.</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">24</span></div>
+          <div class="stat-row"><span class="stat-label">UCL Titles</span><span class="stat-val">2× CL</span></div>
+          <div class="stat-row"><span class="stat-label">Ballon d'Or</span><span class="stat-val">2024</span></div>
+          <div class="stat-row"><span class="stat-label">Club Goals</span><span class="stat-val">100+ RM</span></div>
+          <div class="stat-row"><span class="stat-label">Dribbles</span><span class="stat-val">Top 1% world</span></div>
+          <div class="pcard-bio">"Ballon d'Or winner. The most electric dribbler on the planet — Brazil's hope."</div>
+          <span class="pcard-tag">🕺 Crowd Favourite</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── YAMAL ── -->
+    <div class="pcard-wrap" data-tier="young" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-y" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#AA151B"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-y" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#D4A070"/><stop offset="100%" stop-color="#B07840"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-y)"/>
+              <!-- jersey Spain red -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#AA151B"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">19</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-y)"/>
+              <!-- young face - rounder -->
+              <ellipse cx="65" cy="60" rx="21" ry="22" fill="url(#skin-y)"/>
+              <!-- dark curly youth hair -->
+              <ellipse cx="65" cy="41" rx="21" ry="12" fill="#1A0A00"/>
+              <circle cx="52" cy="43" r="7" fill="#1A0A00"/>
+              <circle cx="65" cy="38" r="8" fill="#1A0A00"/>
+              <circle cx="78" cy="43" r="7" fill="#1A0A00"/>
+              <ellipse cx="44" cy="52" rx="4" ry="9" fill="#1A0A00"/>
+              <ellipse cx="86" cy="52" rx="4" ry="9" fill="#1A0A00"/>
+              <!-- eyes - wide youthful -->
+              <ellipse cx="57" cy="58" rx="4.5" ry="5" fill="white"/>
+              <ellipse cx="73" cy="58" rx="4.5" ry="5" fill="white"/>
+              <circle cx="57" cy="58.5" r="2.8" fill="#1A0A00"/>
+              <circle cx="73" cy="58.5" r="2.8" fill="#1A0A00"/>
+              <circle cx="57.9" cy="57.6" r="1.1" fill="white"/>
+              <circle cx="73.9" cy="57.6" r="1.1" fill="white"/>
+              <path d="M52 51 Q57 49 62 51" stroke="#1A0A00" stroke-width="1.8" fill="none"/>
+              <path d="M68 51 Q73 49 78 51" stroke="#1A0A00" stroke-width="1.8" fill="none"/>
+              <ellipse cx="65" cy="65" rx="3" ry="4" fill="#B07840"/>
+              <!-- cheeky grin -->
+              <path d="M57 72 Q65 80 73 72" stroke="#9A5820" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- star sparkles around - youngest star -->
+              <text x="18" y="35" font-size="14" fill="#FFDF00" opacity="0.8">✦</text>
+              <text x="100" y="30" font-size="10" fill="#FFDF00" opacity="0.7">✦</text>
+              <text x="108" y="80" font-size="12" fill="#FFDF00" opacity="0.8">✦</text>
+              <text x="12" y="85" font-size="10" fill="#FFDF00" opacity="0.6">✦</text>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#FFDF00" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇪🇸</div>
+          <div class="pcard-name">Lamine Yamal</div>
+          <div class="pcard-role">Winger · #19</div>
+          <div class="pcard-country">Spain · FC Barcelona</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">✦ Yamal</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">18</span></div>
+          <div class="stat-row"><span class="stat-label">Euro 2024</span><span class="stat-val">Winner 🏆</span></div>
+          <div class="stat-row"><span class="stat-label">Kopa Trophy</span><span class="stat-val">2× 🏅</span></div>
+          <div class="stat-row"><span class="stat-label">WC Debut</span><span class="stat-val">2026</span></div>
+          <div class="stat-row"><span class="stat-label">Dribble %</span><span class="stat-val">LaLiga #1</span></div>
+          <div class="pcard-bio">"Turns 19 during the tournament. Could define the entire World Cup summer."</div>
+          <span class="pcard-tag">🌟 Next GOAT?</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BELLINGHAM ── -->
+    <div class="pcard-wrap" data-tier="young" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-b" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#012169"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-b" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#C49060"/><stop offset="100%" stop-color="#9A6030"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-b)"/>
+              <!-- jersey England white -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="white"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="#012169" font-family="Arial">10</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-b)"/>
+              <ellipse cx="65" cy="57" rx="22" ry="25" fill="url(#skin-b)"/>
+              <!-- buzzcut dark -->
+              <ellipse cx="65" cy="37" rx="22" ry="12" fill="#2A1A08"/>
+              <ellipse cx="65" cy="42" rx="22" ry="8" fill="#2A1A08"/>
+              <ellipse cx="43" cy="50" rx="4" ry="10" fill="#2A1A08"/>
+              <ellipse cx="87" cy="50" rx="4" ry="10" fill="#2A1A08"/>
+              <!-- eyes -->
+              <ellipse cx="57" cy="56" rx="4" ry="4.2" fill="white"/>
+              <ellipse cx="73" cy="56" rx="4" ry="4.2" fill="white"/>
+              <circle cx="57" cy="56.5" r="2.5" fill="#2A1A08"/>
+              <circle cx="73" cy="56.5" r="2.5" fill="#2A1A08"/>
+              <circle cx="57.7" cy="55.8" r="0.9" fill="white"/>
+              <circle cx="73.7" cy="55.8" r="0.9" fill="white"/>
+              <path d="M52 49 Q57 46 62 49" stroke="#2A1A08" stroke-width="2" fill="none"/>
+              <path d="M68 49 Q73 46 78 49" stroke="#2A1A08" stroke-width="2" fill="none"/>
+              <ellipse cx="65" cy="63" rx="3.5" ry="4.5" fill="#9A6030"/>
+              <path d="M57 70 Q65 76 73 70" stroke="#7A4020" stroke-width="1.5" fill="none"/>
+              <!-- determined brow furrow -->
+              <line x1="62" y1="46" x2="65" y2="49" stroke="#2A1A08" stroke-width="1.5"/>
+              <line x1="68" y1="46" x2="65" y2="49" stroke="#2A1A08" stroke-width="1.5"/>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+          <div class="pcard-name">Jude Bellingham</div>
+          <div class="pcard-role">Midfielder · #10</div>
+          <div class="pcard-country">England · Real Madrid</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">👑 Bellingham</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">21</span></div>
+          <div class="stat-row"><span class="stat-label">UCL Title</span><span class="stat-val">2024</span></div>
+          <div class="stat-row"><span class="stat-label">LaLiga</span><span class="stat-val">2024 🏆</span></div>
+          <div class="stat-row"><span class="stat-label">Goals/RM</span><span class="stat-val">24 in 35</span></div>
+          <div class="stat-row"><span class="stat-label">Role</span><span class="stat-val">Box-to-Box</span></div>
+          <div class="pcard-bio">"England's new king. Goals, assists, big moments — Bellingham delivers every time."</div>
+          <span class="pcard-tag">👑 England's Hope</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PULISIC ── -->
+    <div class="pcard-wrap" data-tier="star" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-p" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#B22234"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-p" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#F0C8A0"/><stop offset="100%" stop-color="#D09870"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-p)"/>
+              <!-- USA jersey red/white/blue -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#B22234"/>
+              <rect x="30" y="96" width="70" height="8" fill="white" opacity="0.5"/>
+              <text x="65" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">10</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-p)"/>
+              <ellipse cx="65" cy="57" rx="21" ry="24" fill="url(#skin-p)"/>
+              <!-- brown hair slight wave -->
+              <ellipse cx="65" cy="37" rx="21" ry="12" fill="#5A3010"/>
+              <ellipse cx="65" cy="41" rx="21" ry="9" fill="#5A3010"/>
+              <ellipse cx="43" cy="50" rx="4" ry="10" fill="#5A3010"/>
+              <ellipse cx="87" cy="50" rx="4" ry="10" fill="#5A3010"/>
+              <!-- eyes green -->
+              <ellipse cx="57" cy="56" rx="4" ry="4.2" fill="white"/>
+              <ellipse cx="73" cy="56" rx="4" ry="4.2" fill="white"/>
+              <circle cx="57" cy="56.5" r="2.5" fill="#3A6A3A"/>
+              <circle cx="73" cy="56.5" r="2.5" fill="#3A6A3A"/>
+              <circle cx="57.7" cy="55.8" r="0.9" fill="white"/>
+              <circle cx="73.7" cy="55.8" r="0.9" fill="white"/>
+              <path d="M52 49 Q57 47 62 49" stroke="#5A3010" stroke-width="2" fill="none"/>
+              <path d="M68 49 Q73 47 78 49" stroke="#5A3010" stroke-width="2" fill="none"/>
+              <ellipse cx="65" cy="63" rx="3" ry="4" fill="#C09060"/>
+              <path d="M58 70 Q65 75 72 70" stroke="#A07040" stroke-width="1.5" fill="none"/>
+              <!-- USA stars -->
+              <text x="15" y="30" font-size="10" fill="white" opacity="0.4">★</text>
+              <text x="105" y="30" font-size="10" fill="white" opacity="0.4">★</text>
+              <text x="110" y="90" font-size="8" fill="white" opacity="0.3">★</text>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇺🇸</div>
+          <div class="pcard-name">Christian Pulisic</div>
+          <div class="pcard-role">Winger · #10</div>
+          <div class="pcard-country">USA · AC Milan</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">🦅 Pulisic</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">26</span></div>
+          <div class="stat-row"><span class="stat-label">Serie A</span><span class="stat-val">AC Milan</span></div>
+          <div class="stat-row"><span class="stat-label">USMNT Goals</span><span class="stat-val">33+</span></div>
+          <div class="stat-row"><span class="stat-label">WC 2022</span><span class="stat-val">R16</span></div>
+          <div class="stat-row"><span class="stat-label">Nickname</span><span class="stat-val">Captain America</span></div>
+          <div class="pcard-bio">"USMNT captain. Playing on home soil — the biggest moment of his career."</div>
+          <span class="pcard-tag">🦅 Captain America</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MODRIC ── -->
+    <div class="pcard-wrap" data-tier="legend" onclick="this.classList.toggle('flipped')">
+      <div class="pcard-inner">
+        <div class="pcard-front">
+          <div class="avatar-wrap">
+            <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bg-lm" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FF0000"/><stop offset="100%" stop-color="#0A1628"/></radialGradient>
+                <radialGradient id="skin-lm" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#E8C090"/><stop offset="100%" stop-color="#C89050"/></radialGradient>
+              </defs>
+              <circle cx="65" cy="65" r="65" fill="url(#bg-lm)"/>
+              <!-- Croatia jersey red/white check -->
+              <ellipse cx="65" cy="112" rx="38" ry="28" fill="#FF0000"/>
+              <!-- checkered pattern hint -->
+              <rect x="40" y="88" width="8" height="8" fill="white" opacity="0.4"/>
+              <rect x="56" y="88" width="8" height="8" fill="white" opacity="0.4"/>
+              <rect x="72" y="88" width="8" height="8" fill="white" opacity="0.4"/>
+              <rect x="48" y="96" width="8" height="8" fill="white" opacity="0.4"/>
+              <rect x="64" y="96" width="8" height="8" fill="white" opacity="0.4"/>
+              <text x="65" y="110" text-anchor="middle" font-size="9" font-weight="bold" fill="white" font-family="Arial">10</text>
+              <rect x="59" y="78" width="12" height="14" rx="4" fill="url(#skin-lm)"/>
+              <ellipse cx="65" cy="57" rx="20" ry="23" fill="url(#skin-lm)"/>
+              <!-- salt pepper hair older maestro -->
+              <ellipse cx="65" cy="38" rx="20" ry="11" fill="#6A6A6A"/>
+              <ellipse cx="65" cy="42" rx="20" ry="8" fill="#6A6A6A"/>
+              <ellipse cx="44" cy="50" rx="4" ry="10" fill="#6A6A6A"/>
+              <ellipse cx="86" cy="50" rx="4" ry="10" fill="#6A6A6A"/>
+              <!-- wise eyes -->
+              <ellipse cx="57" cy="56" rx="3.8" ry="4" fill="white"/>
+              <ellipse cx="73" cy="56" rx="3.8" ry="4" fill="white"/>
+              <circle cx="57" cy="56.5" r="2.3" fill="#3A2A00"/>
+              <circle cx="73" cy="56.5" r="2.3" fill="#3A2A00"/>
+              <circle cx="57.7" cy="55.8" r="0.8" fill="white"/>
+              <circle cx="73.7" cy="55.8" r="0.8" fill="white"/>
+              <!-- slight wrinkle lines - veteran -->
+              <path d="M46 52 Q47 50 49 52" stroke="#C89050" stroke-width="0.8" fill="none" opacity="0.6"/>
+              <path d="M81 52 Q82 50 84 52" stroke="#C89050" stroke-width="0.8" fill="none" opacity="0.6"/>
+              <path d="M52 49 Q57 47 62 49" stroke="#3A2A00" stroke-width="2" fill="none"/>
+              <path d="M68 49 Q73 47 78 49" stroke="#3A2A00" stroke-width="2" fill="none"/>
+              <ellipse cx="65" cy="63" rx="3" ry="4" fill="#B88040"/>
+              <path d="M58 70 Q65 74 72 70" stroke="#8A6030" stroke-width="1.5" fill="none"/>
+              <circle cx="65" cy="65" r="63" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="pcard-country-flag">🇭🇷</div>
+          <div class="pcard-name">Luka Modrić</div>
+          <div class="pcard-role">Midfielder · #10</div>
+          <div class="pcard-country">Croatia · Real Madrid</div>
+          <div class="pcard-hint">Tap to see stats →</div>
+        </div>
+        <div class="pcard-back">
+          <div class="pcard-back-name">🎩 Maestro</div>
+          <div class="stat-row"><span class="stat-label">Age</span><span class="stat-val">40</span></div>
+          <div class="stat-row"><span class="stat-label">WC Best</span><span class="stat-val">Runner-up 2018</span></div>
+          <div class="stat-row"><span class="stat-label">Ballon d'Or</span><span class="stat-val">1× (2018)</span></div>
+          <div class="stat-row"><span class="stat-label">UCL Titles</span><span class="stat-val">6×</span></div>
+          <div class="stat-row"><span class="stat-label">WC Best Player</span><span class="stat-val">2018 Golden Ball</span></div>
+          <div class="pcard-bio">"The ageless maestro. Croatia's heartbeat for over a decade — one last dance."</div>
+          <span class="pcard-tag">🎩 Timeless</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /players-grid -->
+</section>
+
 </div><!-- /main -->
 
 <footer class="footer">
@@ -1705,6 +2399,18 @@
     document.getElementById(id).classList.add('visible');
     event.target.classList.add('active');
     window.scrollTo({ top: document.querySelector('.stage-nav').offsetTop - 10, behavior: 'smooth' });
+  }
+
+  function filterPlayers(tier, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    document.querySelectorAll('.pcard-wrap').forEach(card => {
+      if (tier === 'all' || card.dataset.tier === tier) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
   }
 </script>
 </body>
